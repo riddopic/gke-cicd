@@ -1,0 +1,9 @@
+*.pyc
+project.lock.json
+bin/
+obj/
+
+*/cloudbuild.yaml
+k8s/
+spinnaker/
+tmp/

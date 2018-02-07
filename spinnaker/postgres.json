@@ -1,0 +1,473 @@
+{
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "stefanoh@google.com",
+  "limitConcurrent": true,
+  "stages": [
+    {
+      "clusters": [
+        {
+          "account": "k8s-cicd-dev",
+          "application": "voting",
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [],
+              "imageDescription": {
+                "account": "docker-hub",
+                "imageId": "index.docker.io/library/postgres:9.4",
+                "registry": "index.docker.io",
+                "repository": "library/postgres",
+                "tag": "9.4"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "postgres",
+              "ports": [],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/lib/postgresql",
+                  "name": "postgresql",
+                  "readOnly": false
+                }
+              ]
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "100%",
+                "maxUnavailable": "0%"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": false,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "freeFormDetails": "dev",
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "voting-postgres-dev"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {},
+          "stack": "postgres",
+          "strategy": "highlander",
+          "targetSize": 1,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": [
+            {
+              "awsElasticBlockStore": {
+                "fsType": "",
+                "partition": 0,
+                "volumeId": ""
+              },
+              "configMap": {
+                "configMapName": "",
+                "items": [
+                  {
+                    "key": "",
+                    "path": ""
+                  }
+                ]
+              },
+              "defaultPersistentVolumeClaim": {
+                "claimName": "",
+                "readOnly": true
+              },
+              "emptyDir": {
+                "medium": "DEFAULT"
+              },
+              "hostPath": {
+                "path": "/"
+              },
+              "name": "postgresql",
+              "persistentVolumeClaim": {
+                "claimName": "voting-postgres-dev"
+              },
+              "secret": {
+                "secretName": ""
+              },
+              "type": "PERSISTENTVOLUMECLAIM"
+            }
+          ]
+        }
+      ],
+      "name": "Deploy Dev",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "deploy"
+    },
+    {
+      "account": "k8s-cicd-dev",
+      "annotations": {},
+      "application": "voting",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "container": {
+        "args": [],
+        "command": [
+          "true"
+        ],
+        "envVars": [],
+        "imageDescription": {
+          "account": "docker-hub",
+          "fromTrigger": false,
+          "organization": "library",
+          "registry": "index.docker.io",
+          "repository": "library/postgres",
+          "tag": "9.4"
+        },
+        "name": "job",
+        "volumeMounts": []
+      },
+      "dnsPolicy": "ClusterFirst",
+      "labels": {},
+      "name": "Test Dev",
+      "namespace": "default",
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "type": "runJob",
+      "volumeSources": []
+    },
+    {
+      "clusters": [
+        {
+          "account": "k8s-cicd-prod",
+          "application": "voting",
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [],
+              "imageDescription": {
+                "account": "docker-hub",
+                "imageId": "index.docker.io/library/postgres:9.0",
+                "registry": "index.docker.io",
+                "repository": "library/postgres",
+                "tag": "9.0"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "postgres",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "hostIp": null,
+                  "hostPort": null,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/lib/postgresql",
+                  "name": "postgresql",
+                  "readOnly": false
+                }
+              ]
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "100%",
+                "maxUnavailable": "0%"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": false,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "freeFormDetails": "canary",
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "voting-postgres-canary"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {},
+          "stack": "postgres",
+          "strategy": "highlander",
+          "targetSize": 1,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": [
+            {
+              "awsElasticBlockStore": {
+                "fsType": "",
+                "partition": 0,
+                "volumeId": ""
+              },
+              "configMap": {
+                "configMapName": "voting-postgres-canary",
+                "items": [
+                  {
+                    "key": "",
+                    "path": ""
+                  }
+                ]
+              },
+              "defaultPersistentVolumeClaim": {
+                "claimName": "",
+                "readOnly": true
+              },
+              "emptyDir": {
+                "medium": "DEFAULT"
+              },
+              "hostPath": {
+                "path": "/"
+              },
+              "name": "postgresql",
+              "persistentVolumeClaim": {
+                "claimName": "voting-postgres-canary"
+              },
+              "secret": {
+                "secretName": ""
+              },
+              "type": "PERSISTENTVOLUMECLAIM"
+            }
+          ]
+        }
+      ],
+      "name": "Deploy Canary",
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "type": "deploy"
+    },
+    {
+      "account": "k8s-cicd-prod",
+      "annotations": {},
+      "application": "voting",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "container": {
+        "args": [],
+        "command": [
+          "true"
+        ],
+        "envVars": [],
+        "imageDescription": {
+          "account": "docker-hub",
+          "fromTrigger": false,
+          "organization": "library",
+          "registry": "index.docker.io",
+          "repository": "library/postgres",
+          "tag": "9.4"
+        },
+        "name": "job",
+        "volumeMounts": []
+      },
+      "dnsPolicy": "ClusterFirst",
+      "labels": {},
+      "name": "Test Canary",
+      "namespace": "default",
+      "refId": "4",
+      "requisiteStageRefIds": [
+        "3"
+      ],
+      "type": "runJob",
+      "volumeSources": []
+    },
+    {
+      "clusters": [
+        {
+          "account": "k8s-cicd-prod",
+          "application": "voting",
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [],
+              "imageDescription": {
+                "account": "docker-hub",
+                "imageId": "index.docker.io/library/postgres:9.4",
+                "registry": "index.docker.io",
+                "repository": "library/postgres",
+                "tag": "9.4"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "postgres",
+              "ports": [
+                {
+                  "containerPort": 80,
+                  "hostIp": null,
+                  "hostPort": null,
+                  "name": "http",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": [
+                {
+                  "mountPath": "/var/lib/postgresql",
+                  "name": "postgresql",
+                  "readOnly": false
+                }
+              ]
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "100%",
+                "maxUnavailable": "0%"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": false,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "freeFormDetails": "prod",
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "voting-postgres-prod"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {},
+          "stack": "postgres",
+          "strategy": "highlander",
+          "targetSize": 1,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": [
+            {
+              "awsElasticBlockStore": {
+                "fsType": "",
+                "partition": 0,
+                "volumeId": ""
+              },
+              "configMap": {
+                "configMapName": "",
+                "items": [
+                  {
+                    "key": "",
+                    "path": ""
+                  }
+                ]
+              },
+              "defaultPersistentVolumeClaim": {
+                "claimName": "",
+                "readOnly": true
+              },
+              "emptyDir": {
+                "medium": "DEFAULT"
+              },
+              "hostPath": {
+                "path": "/"
+              },
+              "name": "postgresql",
+              "persistentVolumeClaim": {
+                "claimName": "voting-postgres-prod"
+              },
+              "secret": {
+                "secretName": ""
+              },
+              "type": "PERSISTENTVOLUMECLAIM"
+            }
+          ]
+        }
+      ],
+      "name": "Deploy Prod",
+      "refId": "5",
+      "requisiteStageRefIds": [
+        "4"
+      ],
+      "type": "deploy"
+    },
+    {
+      "account": "k8s-cicd-prod",
+      "annotations": {},
+      "application": "voting",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "container": {
+        "args": [],
+        "command": [
+          "true"
+        ],
+        "envVars": [],
+        "imageDescription": {
+          "account": "docker-hub",
+          "fromTrigger": false,
+          "organization": "library",
+          "registry": "index.docker.io",
+          "repository": "library/postgres",
+          "tag": "9.4"
+        },
+        "name": "job",
+        "volumeMounts": []
+      },
+      "dnsPolicy": "ClusterFirst",
+      "labels": {},
+      "name": "Test Prod",
+      "namespace": "default",
+      "refId": "6",
+      "requisiteStageRefIds": [
+        "5"
+      ],
+      "type": "runJob",
+      "volumeSources": []
+    }
+  ],
+  "triggers": [],
+  "updateTs": "1518007399596"
+}

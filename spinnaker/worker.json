@@ -1,0 +1,410 @@
+{
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "stefanoh@google.com",
+  "limitConcurrent": true,
+  "stages": [
+    {
+      "clusters": [
+        {
+          "account": "k8s-cicd-dev",
+          "application": "voting",
+          "capacity": {
+            "desired": 1,
+            "max": 5,
+            "min": 3
+          },
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [
+                {
+                  "name": "DB",
+                  "value": "voting-postgres-dev"
+                },
+                {
+                  "name": "REDIS",
+                  "value": "voting-redis-dev"
+                }
+              ],
+              "imageDescription": {
+                "account": "gcr-infra",
+                "fromTrigger": true,
+                "imageId": "gcr.io/cardinal-cicd-infra/worker:v.*",
+                "registry": "gcr.io",
+                "repository": "cardinal-cicd-infra/worker",
+                "tag": "v.*"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "worker",
+              "ports": [],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "100%",
+                "maxUnavailable": "0%"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": true,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "freeFormDetails": "dev",
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {},
+          "scaleDown": false,
+          "scalingPolicy": {
+            "cpuUtilization": {
+              "target": 40
+            }
+          },
+          "stack": "worker",
+          "strategy": "redblack",
+          "targetSize": 3,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": []
+        }
+      ],
+      "name": "Deploy Dev",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "deploy"
+    },
+    {
+      "account": "k8s-cicd-dev",
+      "annotations": {},
+      "application": "voting",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "container": {
+        "args": [],
+        "command": [
+          "true"
+        ],
+        "envVars": [],
+        "imageDescription": {
+          "account": "gcr-infra",
+          "fromTrigger": true,
+          "organization": "cardinal-cicd-infra",
+          "registry": "gcr.io",
+          "repository": "cardinal-cicd-infra/worker",
+          "tag": "v.*"
+        },
+        "name": "job",
+        "volumeMounts": []
+      },
+      "dnsPolicy": "ClusterFirst",
+      "labels": {},
+      "name": "Test Dev",
+      "namespace": "default",
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "type": "runJob",
+      "volumeSources": []
+    },
+    {
+      "clusters": [
+        {
+          "account": "k8s-cicd-prod",
+          "application": "voting",
+          "capacity": {
+            "desired": 1,
+            "max": 5,
+            "min": 3
+          },
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [
+                {
+                  "name": "DB",
+                  "value": "voting-postgres-canary"
+                },
+                {
+                  "name": "REDIS",
+                  "value": "voting-redis-canary"
+                }
+              ],
+              "imageDescription": {
+                "account": "gcr-infra",
+                "fromTrigger": true,
+                "imageId": "gcr.io/cardinal-cicd-infra/worker:v.*",
+                "registry": "gcr.io",
+                "repository": "cardinal-cicd-infra/worker",
+                "tag": "v.*"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "worker",
+              "ports": [],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "100%",
+                "maxUnavailable": "0%"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": true,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "freeFormDetails": "canary",
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {},
+          "scalingPolicy": {
+            "cpuUtilization": {
+              "target": 40
+            }
+          },
+          "stack": "worker",
+          "strategy": "redblack",
+          "targetSize": 3,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": []
+        }
+      ],
+      "name": "Deploy Canary",
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "2"
+      ],
+      "type": "deploy"
+    },
+    {
+      "account": "k8s-cicd-prod",
+      "annotations": {},
+      "application": "voting",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "container": {
+        "args": [],
+        "command": [
+          "true"
+        ],
+        "envVars": [],
+        "imageDescription": {
+          "account": "gcr-infra",
+          "fromTrigger": true,
+          "organization": "cardinal-cicd-infra",
+          "registry": "gcr.io",
+          "repository": "cardinal-cicd-infra/worker",
+          "tag": "v.*"
+        },
+        "name": "job",
+        "volumeMounts": []
+      },
+      "dnsPolicy": "ClusterFirst",
+      "labels": {},
+      "name": "Test Canary",
+      "namespace": "default",
+      "refId": "4",
+      "requisiteStageRefIds": [
+        "3"
+      ],
+      "type": "runJob",
+      "volumeSources": []
+    },
+    {
+      "clusters": [
+        {
+          "account": "k8s-cicd-prod",
+          "application": "voting",
+          "capacity": {
+            "desired": 1,
+            "max": 10,
+            "min": 3
+          },
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [
+                {
+                  "name": "DB",
+                  "value": "voting-postgres-prod"
+                },
+                {
+                  "name": "REDIS",
+                  "value": "voting-redis-prod"
+                }
+              ],
+              "imageDescription": {
+                "account": "gcr-infra",
+                "fromTrigger": true,
+                "imageId": "gcr.io/cardinal-cicd-infra/worker:v.*",
+                "registry": "gcr.io",
+                "repository": "cardinal-cicd-infra/worker",
+                "tag": "v.*"
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "worker",
+              "ports": [],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "100%",
+                "maxUnavailable": "0%"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": true,
+            "minReadySeconds": 0,
+            "revisionHistoryLimit": 2
+          },
+          "dnsPolicy": "ClusterFirst",
+          "freeFormDetails": "prod",
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {},
+          "scalingPolicy": {
+            "cpuUtilization": {
+              "target": 40
+            }
+          },
+          "stack": "worker",
+          "strategy": "redblack",
+          "targetSize": 3,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": []
+        }
+      ],
+      "name": "Deploy Prod",
+      "refId": "5",
+      "requisiteStageRefIds": [
+        "7"
+      ],
+      "type": "deploy"
+    },
+    {
+      "account": "k8s-cicd-prod",
+      "annotations": {},
+      "application": "voting",
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "container": {
+        "args": [],
+        "command": [
+          "true"
+        ],
+        "envVars": [],
+        "imageDescription": {
+          "account": "gcr-infra",
+          "fromTrigger": true,
+          "organization": "cardinal-cicd-infra",
+          "registry": "gcr.io",
+          "repository": "cardinal-cicd-infra/worker",
+          "tag": "v.*"
+        },
+        "name": "job",
+        "volumeMounts": []
+      },
+      "dnsPolicy": "ClusterFirst",
+      "labels": {},
+      "name": "Test Prod",
+      "namespace": "default",
+      "refId": "6",
+      "requisiteStageRefIds": [
+        "5"
+      ],
+      "type": "runJob",
+      "volumeSources": []
+    },
+    {
+      "failPipeline": true,
+      "instructions": "Deploy to production?",
+      "judgmentInputs": [],
+      "name": "Manual Judgment",
+      "notifications": [],
+      "refId": "7",
+      "requisiteStageRefIds": [
+        "4"
+      ],
+      "type": "manualJudgment"
+    }
+  ],
+  "triggers": [
+    {
+      "account": "gcr-infra",
+      "enabled": true,
+      "organization": "cardinal-cicd-infra",
+      "registry": "gcr.io",
+      "repository": "cardinal-cicd-infra/worker",
+      "tag": "v.*",
+      "type": "docker"
+    }
+  ],
+  "updateTs": "1518007399653"
+}

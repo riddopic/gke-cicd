@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: voting-result-canary
+  name: voting-result-canary
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    load-balancer-voting-result-canary: "true"
+  sessionAffinity: None
+  type: LoadBalancer

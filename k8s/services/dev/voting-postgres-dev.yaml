@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: voting-postgres-dev
+  name: voting-postgres-dev
+spec:
+  ports:
+  - name: "5432"
+    port: 5432
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    load-balancer-voting-postgres-dev: "true"
+  sessionAffinity: None
+  type: ClusterIP
