@@ -16,10 +16,10 @@
               "envVars": [],
               "imageDescription": {
                 "account": "docker-hub",
-                "imageId": "index.docker.io/library/postgres:9.4",
+                "imageId": "index.docker.io/library/postgres:9.4-alpine",
                 "registry": "index.docker.io",
                 "repository": "library/postgres",
-                "tag": "9.4"
+                "tag": "9.4-alpine"
               },
               "imagePullPolicy": "IFNOTPRESENT",
               "limits": {
@@ -135,7 +135,7 @@
           "organization": "library",
           "registry": "index.docker.io",
           "repository": "library/postgres",
-          "tag": "9.4"
+          "tag": "9.4-alpine"
         },
         "name": "job",
         "volumeMounts": []
@@ -164,7 +164,7 @@
               "envVars": [],
               "imageDescription": {
                 "account": "docker-hub",
-                "imageId": "index.docker.io/library/postgres:9.4",
+                "imageId": "index.docker.io/library/postgres:9.4-alpine",
                 "registry": "index.docker.io",
                 "repository": "library/postgres",
                 "tag": "9.0"
@@ -293,7 +293,7 @@
           "organization": "library",
           "registry": "index.docker.io",
           "repository": "library/postgres",
-          "tag": "9.4"
+          "tag": "9.4-alpine"
         },
         "name": "job",
         "volumeMounts": []
@@ -322,10 +322,10 @@
               "envVars": [],
               "imageDescription": {
                 "account": "docker-hub",
-                "imageId": "index.docker.io/library/postgres:9.4",
+                "imageId": "index.docker.io/library/postgres:9.4-alpine",
                 "registry": "index.docker.io",
                 "repository": "library/postgres",
-                "tag": "9.4"
+                "tag": "9.4-alpine"
               },
               "imagePullPolicy": "IFNOTPRESENT",
               "limits": {
@@ -451,7 +451,7 @@
           "organization": "library",
           "registry": "index.docker.io",
           "repository": "library/postgres",
-          "tag": "9.4"
+          "tag": "9.4-alpine"
         },
         "name": "job",
         "volumeMounts": []
