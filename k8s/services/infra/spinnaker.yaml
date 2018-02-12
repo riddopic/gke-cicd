@@ -1,0 +1,21 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: spinnaker
+spec:
+  tls:
+  - secretName: tls-secret
+  rules:
+  - host: spinnaker.jxtr.us
+    http:
+      paths:
+      - backend:
+          serviceName: spin-deck
+          servicePort: 80
+  - host: spinnaker-api.jxtr.us
+    http:
+      paths:
+      - backend:
+          serviceName: spin-gate
+          servicePort: 80

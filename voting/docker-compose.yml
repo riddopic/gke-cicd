@@ -7,45 +7,63 @@ services:
     volumes:
      - ./vote:/app
     ports:
-      - "5000:80"
+    - "5000:80"
     networks:
-      - front-tier
-      - back-tier
+    - front-tier
+    - back-tier
+    environment:
+    - REDIS=redis
+
+  voter:
+    build:
+      context: ./voter
+    depends_on:
+    - "vote"
+    - "redis"
+    networks:
+    - front-tier
+    environment:
+    - URL=http://vote
 
   result:
     build: ./result
     command: nodemon server.js
     volumes:
-      - ./result:/app
+    - ./result:/app
     ports:
-      - "5001:80"
-      - "5858:5858"
+    - "5001:80"
+    - "5858:5858"
     networks:
-      - front-tier
-      - back-tier
+    - front-tier
+    - back-tier
+    environment:
+    - DB=db
 
   worker:
     build:
       context: ./worker
     depends_on:
-      - "redis"
+    - "redis"
     networks:
-      - back-tier
+    - back-tier
+    environment:
+    - REDIS=redis
+    - DB=db
 
   redis:
     image: redis:alpine
     container_name: redis
     ports: ["6379"]
     networks:
-      - back-tier
+    - back-tier
 
   db:
     image: postgres:9.4
     container_name: db
     volumes:
-      - "db-data:/var/lib/postgresql/data"
+    - "db-data:/var/lib/postgresql/data"
     networks:
-      - back-tier
+    - back-tier
 
 volumes:
   db-data:
