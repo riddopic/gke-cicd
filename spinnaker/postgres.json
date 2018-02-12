@@ -164,7 +164,7 @@
               "envVars": [],
               "imageDescription": {
                 "account": "docker-hub",
-                "imageId": "index.docker.io/library/postgres:9.0",
+                "imageId": "index.docker.io/library/postgres:9.4",
                 "registry": "index.docker.io",
                 "repository": "library/postgres",
                 "tag": "9.0"
