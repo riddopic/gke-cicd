@@ -14,3 +14,14 @@ RUN apt-get update \
  && apt-get update \
  && apt-get install -y google-cloud-sdk \
  && rm -rf /var/lib/apt/lists/*
+ 
+ENV PROJECT=cardinal-cicd-infra \
+    ZONE=us-west1-a \
+    GKE_CLUSTER_NAME=gke-infra \
+    GCS_SA_NAME=gcs-service-account \
+    GCS_SA_DEST=/roor/.gcp/gcp.json \
+    CLUSTER_VERSION=1.9.2-gke.1 \
+    MACHINE_TYPE=n1-standard-2
+
+ADD k8s /workdir/
+ADD bin/spinnaker.sh /workdir/

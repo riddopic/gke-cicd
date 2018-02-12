@@ -6,7 +6,7 @@
     {
       "clusters": [
         {
-          "account": "k8s-cicd-dev",
+          "account": "gke-dev",
           "application": "voting",
           "capacity": {
             "desired": 1,
@@ -102,7 +102,7 @@
       "type": "deploy"
     },
     {
-      "account": "k8s-cicd-dev",
+      "account": "gke-dev",
       "annotations": {},
       "application": "voting",
       "cloudProvider": "kubernetes",
@@ -138,7 +138,7 @@
     {
       "clusters": [
         {
-          "account": "k8s-cicd-prod",
+          "account": "gke-prod",
           "application": "voting",
           "capacity": {
             "desired": 1,
@@ -235,7 +235,7 @@
       "type": "deploy"
     },
     {
-      "account": "k8s-cicd-prod",
+      "account": "gke-prod",
       "annotations": {},
       "application": "voting",
       "cloudProvider": "kubernetes",
@@ -271,7 +271,7 @@
     {
       "clusters": [
         {
-          "account": "k8s-cicd-prod",
+          "account": "gke-prod",
           "application": "voting",
           "capacity": {
             "desired": 1,
@@ -368,7 +368,7 @@
       "type": "deploy"
     },
     {
-      "account": "k8s-cicd-prod",
+      "account": "gke-prod",
       "annotations": {},
       "application": "voting",
       "cloudProvider": "kubernetes",
